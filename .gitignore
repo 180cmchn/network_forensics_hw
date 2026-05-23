@@ -1,0 +1,25 @@
+.DS_Store
+.sisyphus/
+.venv/
+.VSCodeCounter/
+
+# Local/bulky working datasets and outputs
+data/
+results/
+results_candidate/
+
+# Python caches and tooling artifacts
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+.pyright/
+
+# Local logs and environment files
+*.log
+.env
+.env.*
+
+# Local packaged deliverable artifact
+submission.zip
