@@ -1,0 +1,162 @@
+"""Configuration constants for score experiment scripts."""
+
+from __future__ import annotations
+
+try:
+    import solve_dns_homework as solver
+except ModuleNotFoundError:  # Allows package-style imports from the project root.
+    from . import solve_dns_homework as solver
+
+
+SEED_SET = [42, 1009, 2027, 4093, 8191]
+DNS3_INTERPRETABLE_SEED_SET = [42, 1009, 2027, 4093, 8191, 16001, 24001, 32003, 40009, 48017]
+REGISTRY_HEADER = [
+    "run_id",
+    "timestamp",
+    "task",
+    "variant",
+    "seed_set",
+    "params_json",
+    "local_metrics_json",
+    "output_hashes_json",
+    "selected",
+    "online_scores_json",
+    "notes",
+]
+EVIDENCE_DIR = solver.PROJECT_ROOT / ".sisyphus" / "evidence" / "score_improvement"
+DNS3_FOCUS_EVIDENCE_DIR = EVIDENCE_DIR / "dns3_focus"
+DNS3_INTERPRETABLE_EVIDENCE_DIR = EVIDENCE_DIR / "dns3_interpretable"
+REGISTRY_PATH = EVIDENCE_DIR / "registry.csv"
+FEATURE_METRIC_UNAVAILABLE_REASON = "feature_matrix_unavailable_in_baseline_smoke"
+DNS3_PROXY_FORMULA = (
+    "median_pairwise_nmi_across_seeds - 0.20*noise_rate - "
+    "0.10*max_cluster_fraction + 0.05*cluster_entropy_normalized"
+)
+DNS3_FOCUS_SCORE_FORMULA = (
+    "0.40*cluster_entropy_normalized + 0.20*(1-max_cluster_fraction) + "
+    "0.20*min(median_pairwise_nmi_across_seeds,0.95) + "
+    "0.10*sample_silhouette_rank + 0.10*novelty_score"
+)
+DNS3_QUICK_GRID_MAX_SECONDS = 90 * 60
+DNS3_FOCUS_MAX_SECONDS = 90 * 60
+DNS3_FOCUS_EVIDENCE_BUFFER_SECONDS = 120
+DNS3_FOCUS_EFFECTIVE_MAX_SECONDS = DNS3_FOCUS_MAX_SECONDS - DNS3_FOCUS_EVIDENCE_BUFFER_SECONDS
+DNS3_FOCUS_HDBSCAN_MIN_REMAINING_SECONDS = 30 * 60
+DNS3_INTERPRETABLE_MAX_SECONDS = 90 * 60
+DNS3_INTERPRETABLE_EVIDENCE_BUFFER_SECONDS = 120
+DNS3_INTERPRETABLE_EFFECTIVE_MAX_SECONDS = DNS3_INTERPRETABLE_MAX_SECONDS - DNS3_INTERPRETABLE_EVIDENCE_BUFFER_SECONDS
+DNS3_INTERPRETABLE_KMEANS_MIN_REMAINING_SECONDS = 20 * 60
+DNS3_INTERPRETABLE_ROUTES = ["traffic_only", "traffic_plus_ip", "traffic_plus_lexical"]
+DNS3_INTERPRETABLE_K_VALUES = [3, 4, 5, 6, 7, 8]
+DNS3_INTERPRETABLE_MIN_NMI = 0.80
+DNS3_INTERPRETABLE_MIN_ARI = 0.60
+DNS3_INTERPRETABLE_MIN_SEPARATION_RATIO = 0.25
+DNS3_INTERPRETABLE_MAX_CLUSTER_FRACTION = 0.55
+DNS1_LOCKED_SHA256 = "e697c1c86681c38b385fc955370895c03761b9a9015f8d664ebd94ec23c0fd54"
+DNS2_LOCKED_SHA256 = "f12ddfbc1296d6876cfaed019227fbb708edd11f3638cbe100f7ba73b02d9c1c"
+DNS3_INTERPRETABLE_FALLBACK_SHA256 = "4507b2fbebc005ec63879df6068ef5a8c6e8791c84ab38c7cf0165064b976724"
+DNS3_INTERPRETABLE_ROUTE_ORDER = {route: index for index, route in enumerate(DNS3_INTERPRETABLE_ROUTES)}
+DNS3_INTERPRETABLE_ALGORITHM_ORDER = {"MiniBatchKMeans": 0, "KMeans": 1, "GaussianMixture": 2}
+DNS3_INTERPRETABLE_PROFILE_SCORE_FORMULA = (
+    "min over profile_gate.clusters[*].passing_metric_count from candidate_registry.json; "
+    "each cluster must also have passed=true and at least two recorded passing evidence metrics"
+)
+DNS3_AGGLOMERATIVE_MAX_SECONDS = 20 * 60
+DNS3_AGGLOMERATIVE_ROW_THRESHOLD = 15_000
+DNS3_GRID_KMEANS_SCALED_K = [3, 4, 5, 6, 8, 10, 12, 16, 20]
+DNS3_GRID_KMEANS_TEXT_WEIGHTED_K = [3, 4, 5, 6, 8, 10, 12]
+DNS3_GRID_AGGLOMERATIVE_K = [3, 4, 5, 6, 8, 10, 12]
+DNS3_GRID_HDBSCAN_MIN_CLUSTER_SIZE = [40, 80, 150]
+DNS3_GRID_HDBSCAN_MIN_SAMPLES = [10, 30, None]
+DNS3_GRID_HDBSCAN_METHODS = ["eom", "leaf"]
+DNS3_FOCUS_FEATURE_ABLATION_K = [4, 6, 8, 12, 16]
+DNS3_FOCUS_WEIGHT_SWEEP_WEIGHTS = [0.0, 0.25, 0.75, 1.25, 2.0]
+DNS3_FOCUS_WEIGHT_SWEEP_K = [4, 6, 8, 12]
+DNS3_FOCUS_GAUSSIAN_MIXTURE_K = [4, 6, 8, 12, 16]
+DNS3_FOCUS_BIRCH_THRESHOLDS = [0.35, 0.50, 0.75]
+DNS3_FOCUS_BIRCH_N_CLUSTERS = [4, 6, 8, 12]
+DNS1_RISK_BLENDS = {
+    "baseline": {"pu": 0.45, "noisy": 0.35, "nn": 0.20},
+    "conservative": {"pu": 0.55, "noisy": 0.25, "nn": 0.20},
+    "proximity-aware": {"pu": 0.40, "noisy": 0.25, "nn": 0.35},
+}
+DNS1_EXTRA_COUNTS = [424, 524, 650, 800, 1000]
+DNS1_BASELINE_BLEND = "baseline"
+DNS1_BASELINE_EXTRA_COUNT = 524
+DNS1_PROXY_FORMULA = (
+    "family_oof_score + 0.25*selected_extra_risk_mean + "
+    "0.15*family_margin_mean - 0.10*largest_family_fraction"
+)
+DNS1_KNOWN_BAD_SHA256 = "b3d60d8d4dd6363760ea7774c446aef864a59b58f8c495f3c61f4e6f70ed9789"
+DNS1_IMPROVEMENT_EVIDENCE_DIR = EVIDENCE_DIR / "dns1_improvement"
+DNS1_IMPROVEMENT_TOTAL_ROW_COUNTS = [850, 950, 1000, 1050, 1150, 1300]
+DNS1_IMPROVEMENT_RISK_BLENDS = {
+    "baseline": {"pu": 0.45, "noisy": 0.35, "nn": 0.20},
+    "conservative": {"pu": 0.55, "noisy": 0.25, "nn": 0.20},
+    "balanced": {"pu": 0.40, "noisy": 0.30, "nn": 0.30},
+    "nn_rerank": {"pu": 0.50, "noisy": 0.20, "nn": 0.30},
+}
+DNS1_IMPROVEMENT_FAMILY_POLICIES = [
+    "original_classifier",
+    "nearest_neighbor_family_smoothing",
+    "confidence_margin_abstain_rerank",
+]
+
+
+__all__ = [
+    "SEED_SET",
+    "DNS3_INTERPRETABLE_SEED_SET",
+    "REGISTRY_HEADER",
+    "EVIDENCE_DIR",
+    "DNS3_FOCUS_EVIDENCE_DIR",
+    "DNS3_INTERPRETABLE_EVIDENCE_DIR",
+    "REGISTRY_PATH",
+    "FEATURE_METRIC_UNAVAILABLE_REASON",
+    "DNS3_PROXY_FORMULA",
+    "DNS3_FOCUS_SCORE_FORMULA",
+    "DNS3_QUICK_GRID_MAX_SECONDS",
+    "DNS3_FOCUS_MAX_SECONDS",
+    "DNS3_FOCUS_EVIDENCE_BUFFER_SECONDS",
+    "DNS3_FOCUS_EFFECTIVE_MAX_SECONDS",
+    "DNS3_FOCUS_HDBSCAN_MIN_REMAINING_SECONDS",
+    "DNS3_INTERPRETABLE_MAX_SECONDS",
+    "DNS3_INTERPRETABLE_EVIDENCE_BUFFER_SECONDS",
+    "DNS3_INTERPRETABLE_EFFECTIVE_MAX_SECONDS",
+    "DNS3_INTERPRETABLE_KMEANS_MIN_REMAINING_SECONDS",
+    "DNS3_INTERPRETABLE_ROUTES",
+    "DNS3_INTERPRETABLE_K_VALUES",
+    "DNS3_INTERPRETABLE_MIN_NMI",
+    "DNS3_INTERPRETABLE_MIN_ARI",
+    "DNS3_INTERPRETABLE_MIN_SEPARATION_RATIO",
+    "DNS3_INTERPRETABLE_MAX_CLUSTER_FRACTION",
+    "DNS1_LOCKED_SHA256",
+    "DNS2_LOCKED_SHA256",
+    "DNS3_INTERPRETABLE_FALLBACK_SHA256",
+    "DNS3_INTERPRETABLE_ROUTE_ORDER",
+    "DNS3_INTERPRETABLE_ALGORITHM_ORDER",
+    "DNS3_INTERPRETABLE_PROFILE_SCORE_FORMULA",
+    "DNS3_AGGLOMERATIVE_MAX_SECONDS",
+    "DNS3_AGGLOMERATIVE_ROW_THRESHOLD",
+    "DNS3_GRID_KMEANS_SCALED_K",
+    "DNS3_GRID_KMEANS_TEXT_WEIGHTED_K",
+    "DNS3_GRID_AGGLOMERATIVE_K",
+    "DNS3_GRID_HDBSCAN_MIN_CLUSTER_SIZE",
+    "DNS3_GRID_HDBSCAN_MIN_SAMPLES",
+    "DNS3_GRID_HDBSCAN_METHODS",
+    "DNS3_FOCUS_FEATURE_ABLATION_K",
+    "DNS3_FOCUS_WEIGHT_SWEEP_WEIGHTS",
+    "DNS3_FOCUS_WEIGHT_SWEEP_K",
+    "DNS3_FOCUS_GAUSSIAN_MIXTURE_K",
+    "DNS3_FOCUS_BIRCH_THRESHOLDS",
+    "DNS3_FOCUS_BIRCH_N_CLUSTERS",
+    "DNS1_RISK_BLENDS",
+    "DNS1_EXTRA_COUNTS",
+    "DNS1_BASELINE_BLEND",
+    "DNS1_BASELINE_EXTRA_COUNT",
+    "DNS1_PROXY_FORMULA",
+    "DNS1_KNOWN_BAD_SHA256",
+    "DNS1_IMPROVEMENT_EVIDENCE_DIR",
+    "DNS1_IMPROVEMENT_TOTAL_ROW_COUNTS",
+    "DNS1_IMPROVEMENT_RISK_BLENDS",
+    "DNS1_IMPROVEMENT_FAMILY_POLICIES",
+]
