@@ -1,41 +1,39 @@
-# DNS Homework Solver Run Summary
+# DNS Homework Final Package Summary
 
-Updated by Task 4 reporting correction. This summary reflects the current final local package after dns1 rollback and deterministic dns3 focus selection; no new dns3 experiments were run for this correction.
+This summary reflects the current final `submission/answers/` package. The package keeps the highest confirmed score for each DNS task: dns1 probe 3, frozen dns2, and frozen dns3 K=3 clustering.
 
-## Final Task 4 deterministic package
-- dns1: rollback baseline because online feedback dropped from `80.87` to `78.51`; final hash `e697c1c86681c38b385fc955370895c03761b9a9015f8d664ebd94ec23c0fd54`; rows `1000`.
-- dns2: frozen baseline; final hash `f12ddfbc1296d6876cfaed019227fbb708edd11f3638cbe100f7ba73b02d9c1c`; rows `17468`.
-- dns3: selected focus candidate `traffic_dns_only_k12`; final hash `4507b2fbebc005ec63879df6068ef5a8c6e8791c84ab38c7cf0165064b976724`; rows `17468`.
+## Final scores and hashes
 
-## dns1 rollback details
-- Decision: rollback to known better baseline, not the old dns1 primary candidate.
-- Reason: online dns1 score dropped `80.87 -> 78.51` after the failed candidate, while the rollback baseline hash is `e697c1c86681c38b385fc955370895c03761b9a9015f8d664ebd94ec23c0fd54`.
-- Failed dns1 candidate hash kept absent from final staged answers: `b3d60d8d4dd6363760ea7774c446aef864a59b58f8c495f3c61f4e6f70ed9789`.
-- Final row count: `1000`.
+| Task | Online score | Answer file | Rows | SHA256 |
+| --- | ---: | --- | ---: | --- |
+| dns1 | `82.42` | `submission/answers/dns1.csv` | `1150` | `ae5dee85264ef3dbcd25525c12a3be5b8a76419e208cfe34db36eefee5d6620d` |
+| dns2 | `95.51` | `submission/answers/dns2.csv` | `17468` | `f12ddfbc1296d6876cfaed019227fbb708edd11f3638cbe100f7ba73b02d9c1c` |
+| dns3 | `15.31` | `submission/answers/dns3.csv` | `17468` | `bbdd3795a83d3322350ac602c6213e2b1fc6be17899e3d7294fb149d727c78e6` |
 
-## dns2 frozen baseline
-- Decision: keep frozen baseline because online dns2 stayed `95.51` and Task 4 scope forbids dns2 changes.
-- Final hash: `f12ddfbc1296d6876cfaed019227fbb708edd11f3638cbe100f7ba73b02d9c1c`.
-- Final row count: `17468`.
+## Task notes
 
-## dns3 focus selection
-- Decision: select `traffic_dns_only_k12` under the deterministic Task 4 gate and tie-break rules.
-- Final hash: `4507b2fbebc005ec63879df6068ef5a8c6e8791c84ab38c7cf0165064b976724`.
-- cluster_count: `12`.
-- max_cluster_fraction: `0.260361804442409`.
-- min_cluster_size: `95`.
-- dns3_focus_score: `0.8320418194401968`.
-- Selection evidence: `.sisyphus/evidence/score_improvement/dns3_focus/task-4-final-selection.json`.
+### dns1
 
-## Final artifacts
-- `results/dns1/label.csv`
-- `results/dns2/label.csv`
-- `results/dns3/label.csv`
-- `submission/answers/dns1.csv`
-- `submission/answers/dns2.csv`
-- `submission/answers/dns3.csv`
+- Final answer: `conservative_rows1150_original_classifier` from probe 3.
+- Online score: `82.42`, improving over the protected `80.87` baseline.
+- Probe 4 was canceled after probe 3 beat the baseline.
+- Family-label distribution in the submitted file: `{0: 793, 1: 33, 2: 34, 3: 35, 4: 50, 5: 19, 6: 172, 7: 9, 8: 5}`.
 
-## Verification evidence
-- Flat answers validation: `.sisyphus/evidence/score_improvement/dns3_focus/task-4-final-package-validation.json`.
-- dns1 rollback lock: `.sisyphus/evidence/score_improvement/dns3_focus/task-4-dns1-rollback-lock.json`.
-- Report consistency check: `.sisyphus/evidence/score_improvement/dns3_focus/task-4-run-summary-consistency.json`.
+### dns2
+
+- Final answer remains the frozen highest-score package.
+- Submitted label distribution: `{0: 7975, 1: 9493}`.
+
+### dns3
+
+- Final answer remains the frozen K=3 clustering package.
+- Submitted cluster distribution: `{0: 7787, 1: 7554, 2: 2127}`.
+
+## Verification commands
+
+```bash
+.venv/bin/python scripts/validate_outputs.py --results submission/answers --data data --answers-layout
+shasum -a 256 submission/answers/dns1.csv submission/answers/dns2.csv submission/answers/dns3.csv
+```
+
+`results/` is a local regenerated output directory and is not tracked in Git. The tracked final submission package is `submission/answers/`.
