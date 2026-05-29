@@ -40,7 +40,7 @@
 | 模块 | 主要职责 |
 | --- | --- |
 | `scripts/score_exp_common.py` | JSON/CSV、路径、哈希、矩阵形状和安全类型转换等通用工具。 |
-| `scripts/score_exp_config.py` | 实验常量、证据目录、候选网格、锁定哈希和阈值。 |
+| `scripts/score_exp_config.py` | 实验常量、输出目录、候选网格、锁定哈希和阈值。 |
 | `scripts/score_exp_types.py` | 候选结果和特征 bundle 的共享 dataclass。 |
 | `scripts/score_exp_metrics.py` | 标签分布、聚类熵、ARI/NMI、特征空间指标等共享评分函数。 |
 | `scripts/score_exp_artifacts.py` | 输出目录、候选 registry、基线复制和验证状态等产物辅助函数。 |
@@ -64,9 +64,8 @@
 - `reports/method_summary.md`：方法说明。
 - `reports/run_summary.md`：运行结果摘要。
 - `reports/dns3_cluster_visualization.html`：`dns3` 聚类结果的静态 HTML 可视化报告。
-- `submission/method_summary.md`：随提交材料整理的说明文件副本。
-- `submission/run_summary.md`：随提交材料整理的运行摘要副本。
-- `submission/solve_dns_homework.py`：随提交材料整理的求解脚本副本。
+- `submission/answers/`：最终提交 CSV 文件目录。
+- `submission/solve_dns_homework.py`：随提交材料整理的求解脚本副本；文字说明统一查看 `reports/` 下的 Markdown，避免重复副本不一致。
 
 ## 关于 `results/`
 
