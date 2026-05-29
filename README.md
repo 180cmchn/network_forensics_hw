@@ -12,6 +12,16 @@
 | `dns2` | `submission/answers/dns2.csv` | `submission/dns2/label.csv`、`submission/dns2/label2.csv`、`submission/dns2/label2.numbers` | `dns2` 是黑白域名二分类任务。 |
 | `dns3` | `submission/answers/dns3.csv` | `submission/dns3/label.csv` | `dns3` 是域名聚类任务。对应可视化报告见 `reports/dns3_cluster_visualization.html`。 |
 
+## 当前提交成绩与答案哈希
+
+当前 `submission/answers/` 中保留的是已确认的最高分组合：
+
+| 题目 | 当前线上分数 | 答案文件 SHA256 | 备注 |
+| --- | ---: | --- | --- |
+| `dns1` | `82.42` | `ae5dee85264ef3dbcd25525c12a3be5b8a76419e208cfe34db36eefee5d6620d` | 第 3 次 probe，`conservative_rows1150_original_classifier`。 |
+| `dns2` | `95.51` | `f12ddfbc1296d6876cfaed019227fbb708edd11f3638cbe100f7ba73b02d9c1c` | 冻结的最高分答案。 |
+| `dns3` | `15.31` | `bbdd3795a83d3322350ac602c6213e2b1fc6be17899e3d7294fb149d727c78e6` | 冻结的 K=3 聚类答案。 |
+
 ## 共享脚本
 
 这些脚本不是只服务某一道题，而是整个作业流程共用或和多题相关：
